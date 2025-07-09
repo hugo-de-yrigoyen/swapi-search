@@ -5,7 +5,8 @@ export const search = async (request: HapiRequest, h: ResponseToolkit) => {
   try {
     const { q: query, type } = request.query as { q?: string; type?: string };
 
-    if (!query || typeof query !== "string") {
+    // Allow empty query to fetch all results
+    if (typeof query !== "string") {
       return h.response({ error: "Query parameter is required" }).code(400);
     }
 

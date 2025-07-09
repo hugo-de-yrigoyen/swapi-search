@@ -1,126 +1,73 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { useSearch } from '../hooks/useSearch';
-import { SearchBar } from '../components/SearchBar';
-import { TypeFilter } from '../components/TypeFilter';
-import { SearchResults } from '../components/SearchResults';
-import { LoadingSpinner } from '../components/LoadingSpinner';
-import { ErrorMessage } from '../components/ErrorMessage';
-import { Button } from '../components/ui/Button';
-import { SearchResult } from '../types';
-import { Shield, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Starfield } from "../components/Starfield";
+import { SearchBar } from "../components/SearchBar";
+import { TypeFilter } from "../components/TypeFilter";
+import { SearchResults } from "../components/SearchResults";
+import { useSearch } from "../hooks/useSearch";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export const SearchPage: React.FC = () => {
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState("");
+  const [hasSearched, setHasSearched] = useState(false);
+  const { data, isLoading } = useSearch(query, type);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [query, setQuery] = useState('');
-  const [selectedType, setSelectedType] = useState('');
 
-  const { data, isLoading, error } = useSearch(query, selectedType);
+  // On mount, trigger a search for all results
+  useEffect(() => {
+    setHasSearched(true);
+  }, []);
 
-  const handleResultClick = (result: SearchResult) => {
+  const handleResultClick = (result: any) => {
     navigate(`/details/${result.type}/${result.id}`, { state: { result } });
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-      {/* Header */}
-      <header className="bg-black/30 backdrop-blur-sm border-b border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Shield className="h-8 w-8 text-blue-400" />
-              <div>
-                <h1 className="text-xl font-bold text-white">
-                  Rebel Alliance Database
-                </h1>
-                <p className="text-blue-200 text-sm">
-                  Imperial Intelligence System
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <span className="text-white">
-                Welcome, <strong>{user?.username}</strong>
-              </span>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleLogout}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+    <div className="min-h-screen flex items-center justify-center relative">
+      <Starfield />
+      <div className="w-full max-w-2xl mx-auto p-6 z-10">
+        {/* Header */}
+        <header className="flex items-center justify-between mb-8 bg-black/30 backdrop-blur-sm border-b border-gray-700 rounded-lg p-4">
+          <div>
+            <h1 className="star-wars-font text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 glow">
+              IMPERIAL DATABASE
+            </h1>
+            <p className="star-wars-font text-xs text-blue-200 tracking-wider">Imperial Intelligence System</p>
           </div>
+          <div className="flex items-center gap-4">
+            <span className="text-white star-wars-font">
+              Welcome, <strong>{user?.username}</strong>
+            </span>
+            <button
+              onClick={logout}
+              className="star-wars-font py-2 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 btn-hover text-xs font-bold">
+              Logout
+            </button>
+          </div>
+        </header>
+        <div className="text-center mb-8">
+          <h2 className="star-wars-font text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 mb-4 glow">
+            SEARCH THE ARCHIVES
+          </h2>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8">
-        {/* Search Section */}
-        <div className="mb-8">
-          <div className="max-w-2xl mx-auto mb-6">
-            <SearchBar
-              value={query}
-              onChange={setQuery}
-              placeholder="Search for people, starships, planets, films..."
-            />
+        <div className="bg-black bg-opacity-50 backdrop-blur-sm rounded-lg p-8 border border-blue-500">
+          <div className="mb-6">
+            <SearchBar value={query} onChange={setQuery} placeholder="Search for people, planets, starships..." />
           </div>
-
-          <div className="flex justify-center">
-            <TypeFilter
-              selectedType={selectedType}
-              onTypeChange={setSelectedType}
-            />
+          <div className="mb-6">
+            <TypeFilter selectedType={type} onTypeChange={setType} />
           </div>
-        </div>
-
-        {/* Results Section */}
-        <div className="bg-black/20 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
-          {!query && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 text-lg mb-2">
-                Ready to infiltrate the Imperial database
-              </div>
-              <div className="text-gray-500 text-sm">
-                Enter a search term to begin your mission
-              </div>
+          {isLoading && (
+            <div className="flex justify-center my-8">
+              <LoadingSpinner />
             </div>
           )}
-
-          {query && isLoading && <LoadingSpinner />}
-
-          {query && error && (
-            <ErrorMessage message={error.message} />
-          )}
-
-          {query && data && (
-            <div>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-white">
-                  Search Results
-                </h2>
-                <div className="text-gray-400 text-sm">
-                  {data.totalCount} results found for "{data.query}"
-                </div>
-              </div>
-
-              <SearchResults
-                results={data.results}
-                onResultClick={handleResultClick}
-              />
-            </div>
-          )}
+          {!isLoading && <SearchResults results={data?.results || []} onResultClick={handleResultClick} />}
         </div>
-      </main>
+      </div>
     </div>
   );
 };
