@@ -2,7 +2,7 @@
   "name": "star-wars-rebels-backend",
   "version": "1.0.0",
   "description": "Backend API for Star Wars Rebels Alliance Search System",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "start": "node dist/src/index.js",
     "dev": "tsx watch src/index.ts",
