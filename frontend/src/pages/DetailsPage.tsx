@@ -16,10 +16,10 @@ const swapiUrlToRoute = (url: string) => {
 // Helper to normalize SWAPI URLs (remove trailing slash)
 const normalizeSwapiUrl = (url: string) => url.replace(/\/$/, "");
 
-// Helper to format ISO date string as 'Month Day, Year'
+// Helper to format ISO date string as 'Month Day, Year' in English
 const formatDate = (iso: string) => {
   const date = new Date(iso);
-  return date.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 };
 
 export const DetailsPage: React.FC = () => {
@@ -213,8 +213,9 @@ export const DetailsPage: React.FC = () => {
                 // Format created/edited dates
                 if ((key === "created" || key === "edited") && typeof value === "string") {
                   return (
-                    <div key={key}>
-                      <span className="font-semibold capitalize">{key}:</span> {formatDate(value)}
+                    <div key={key} className="flex flex-col md:flex-row md:items-center md:gap-4">
+                      <span className="star-wars-font text-blue-300 font-bold uppercase w-40">{key}:</span>
+                      <span className="text-white break-words">{formatDate(value)}</span>
                     </div>
                   );
                 }
