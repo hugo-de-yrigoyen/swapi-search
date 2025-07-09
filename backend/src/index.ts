@@ -14,6 +14,11 @@ const init = async () => {
     },
   });
 
+  // Export server for testing
+  if (process.env.NODE_ENV === 'test') {
+    (global as any).__TEST_SERVER__ = server;
+  }
+
   // Health check route
   server.route({
     method: "GET",

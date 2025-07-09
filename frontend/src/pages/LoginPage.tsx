@@ -49,10 +49,13 @@ export const LoginPage: React.FC = () => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {/* Username */}
             <div>
-              <label className="star-wars-font block text-blue-300 text-sm font-bold mb-2 tracking-wide">
+              <label
+                htmlFor="username"
+                className="star-wars-font block text-blue-300 text-sm font-bold mb-2 tracking-wide">
                 USERNAME
               </label>
               <input
+                id="username"
                 type="text"
                 className="w-full px-4 py-3 bg-gray-900 bg-opacity-80 border border-blue-400 rounded-lg focus:outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-400 star-wars-font transition-all duration-300"
                 placeholder="Enter your username"
@@ -64,11 +67,14 @@ export const LoginPage: React.FC = () => {
 
             {/* Password */}
             <div>
-              <label className="star-wars-font block text-blue-300 text-sm font-bold mb-2 tracking-wide">
+              <label
+                htmlFor="password"
+                className="star-wars-font block text-blue-300 text-sm font-bold mb-2 tracking-wide">
                 PASSWORD
               </label>
               <div className="relative">
                 <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   className="w-full px-4 py-3 bg-gray-900 bg-opacity-80 border border-blue-400 rounded-lg focus:outline-none focus:border-blue-300 focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-400 star-wars-font transition-all duration-300 pr-12"
                   placeholder="Enter your password"
