@@ -1,42 +1,41 @@
-import { Response } from 'express';
-import { AuthRequest } from '../middleware/auth';
-import swapiService from '../services/swapiService';
+import { Request as HapiRequest, ResponseToolkit } from "@hapi/hapi";
+import swapiService from "../services/swapiService";
 
-export const search = async (req: AuthRequest, res: Response) => {
+export const search = async (request: HapiRequest, h: ResponseToolkit) => {
   try {
-    const { q: query, type } = req.query;
+    const { q: query, type } = request.query as { q?: string; type?: string };
 
-    if (!query || typeof query !== 'string') {
-      return res.status(400).json({ error: 'Query parameter is required' });
+    if (!query || typeof query !== "string") {
+      return h.response({ error: "Query parameter is required" }).code(400);
     }
 
     const results = await swapiService.searchAll(query);
 
     // Filter by type if specified
-    if (type && typeof type === 'string') {
-      results.results = results.results.filter(result => result.type === type);
+    if (type && typeof type === "string") {
+      results.results = results.results.filter((result: any) => result.type === type);
       results.totalCount = results.results.length;
     }
 
-    res.json(results);
+    return h.response(results);
   } catch (error) {
-    console.error('Search error:', error);
-    res.status(500).json({ error: 'Failed to search the Imperial database' });
+    console.error("Search error:", error);
+    return h.response({ error: "Failed to search the Imperial database" }).code(500);
   }
 };
 
-export const getDetails = async (req: AuthRequest, res: Response) => {
+export const getDetails = async (request: HapiRequest, h: ResponseToolkit) => {
   try {
-    const { type, id } = req.params;
+    const { type, id } = request.params as { type?: string; id?: string };
 
     if (!type || !id) {
-      return res.status(400).json({ error: 'Type and ID parameters are required' });
+      return h.response({ error: "Type and ID parameters are required" }).code(400);
     }
 
     const details = await swapiService.getDetails(type, id);
-    res.json(details);
+    return h.response(details);
   } catch (error) {
-    console.error('Get details error:', error);
-    res.status(500).json({ error: 'Failed to get details from the Imperial database' });
+    console.error("Get details error:", error);
+    return h.response({ error: "Failed to get details from the Imperial database" }).code(500);
   }
 };

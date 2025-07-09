@@ -1,30 +1,51 @@
-import express from 'express';
-import cors from 'cors';
-import authRoutes from './routes/auth';
-import searchRoutes from './routes/search';
+import Hapi from "@hapi/hapi";
+import Boom from "@hapi/boom";
+import authRoutes from "./routes/auth";
+import searchRoutes from "./routes/search";
 
-const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+const init = async () => {
+  const server = Hapi.server({
+    port: PORT,
+    host: "localhost",
+    routes: {
+      cors: true, // Enable CORS for all routes
+    },
+  });
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api', searchRoutes);
+  // Health check route
+  server.route({
+    method: "GET",
+    path: "/health",
+    handler: (request, h) => {
+      return { status: "The Death Star plans are secure", timestamp: new Date().toISOString() };
+    },
+  });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'The Death Star plans are secure', timestamp: new Date().toISOString() });
-});
+  // Auth routes (prefix: /api/auth)
+  // You will need to refactor your authRoutes to export Hapi-compatible route configs
+  if (Array.isArray(authRoutes)) {
+    server.route(authRoutes.map((route) => ({ ...route, path: `/api/auth${route.path}` })));
+  }
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ error: 'These are not the droids you are looking for...' });
-});
+  // Search routes (prefix: /api)
+  if (Array.isArray(searchRoutes)) {
+    server.route(searchRoutes.map((route) => ({ ...route, path: `/api${route.path}` })));
+  }
 
-app.listen(PORT, () => {
+  // 404 handler
+  server.ext("onPreResponse", (request, h) => {
+    const response = request.response;
+    if (Boom.isBoom(response) && response.output.statusCode === 404) {
+      return h.response({ error: "These are not the droids you are looking for..." }).code(404);
+    }
+    return h.continue;
+  });
+
+  await server.start();
   console.log(`🚀 Rebel Alliance API running on port ${PORT}`);
-  console.log(`📡 May the Force be with you!`);
-});
+  console.log("📡 May the Force be with you!");
+};
+
+init();

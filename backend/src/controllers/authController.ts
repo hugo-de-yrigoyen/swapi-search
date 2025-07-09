@@ -1,41 +1,41 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { generateToken } from '../middleware/auth';
-import { AuthUser } from '../types';
+import { generateToken } from "../middleware/auth";
+import { AuthUser } from "../types";
+import { Request as HapiRequest, ResponseToolkit } from "@hapi/hapi";
 
 // Fixed credentials for the Alliance
 const REBEL_USER: AuthUser = {
-  username: 'Luke',
-  password: 'DadSucks'
+  username: "Luke",
+  password: "DadSucks",
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (request: HapiRequest, h: ResponseToolkit) => {
   try {
-    const { username, password } = req.body;
+    const { username, password } = request.payload as { username: string; password: string };
 
     if (!username || !password) {
-      return res.status(400).json({ error: 'Username and password are required' });
+      return h.response({ error: "Username and password are required" }).code(400);
     }
 
     // Check credentials
     if (username !== REBEL_USER.username || password !== REBEL_USER.password) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return h.response({ error: "Invalid credentials" }).code(401);
     }
 
     // Generate token
     const token = generateToken(username);
 
-    res.json({
-      message: 'Welcome to the Rebel Alliance, young Padawan!',
+    return h.response({
+      message: "Welcome to the Rebel Alliance, young Padawan!",
       token,
-      user: { username }
+      user: { username },
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Login error:", error);
+    return h.response({ error: "Internal server error" }).code(500);
   }
 };
 
-export const verify = (req: Request, res: Response) => {
-  res.json({ message: 'Token is valid', user: (req as any).user });
+export const verify = (request: HapiRequest, h: ResponseToolkit) => {
+  // The user should be attached to request.auth.credentials by the auth strategy
+  return h.response({ message: "Token is valid", user: (request.auth && request.auth.credentials) || null });
 };
