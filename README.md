@@ -35,7 +35,7 @@ En production (ex : Render), ne pas oublier de définir la variable d'environnem
 Dans la configuration CORS du backend, la valeur utilisée est :
 
 ```js
-origin: [process.env.ORIGIN_URL || "https://swapi-search-hdy.netlify.app"];
+origin: [process.env.ORIGIN_URL || "http://localhost:5173"];
 ```
 
 ### Frontend

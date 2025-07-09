@@ -13,7 +13,7 @@ const init = async () => {
     host: "0.0.0.0",
     routes: {
       cors: {
-        origin: [process.env.ORIGIN_URL || "https://swapi-search-hdy.netlify.app"],
+        origin: [process.env.ORIGIN_URL || "http://localhost:5173"],
         credentials: true,
         additionalHeaders: ["cache-control", "x-requested-with"],
       },
