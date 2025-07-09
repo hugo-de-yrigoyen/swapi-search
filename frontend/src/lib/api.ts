@@ -1,7 +1,8 @@
-import axios from 'axios';
-import { AuthResponse, SearchResponse, ApiError } from '../types';
+/// <reference types="vite/client" />
+import axios from "axios";
+import { AuthResponse, SearchResponse, ApiError, AuthUser } from "../types";
 
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 // Create axios instance
 const api = axios.create({
@@ -10,7 +11,7 @@ const api = axios.create({
 
 // Add token to requests
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('rebel_token');
+  const token = localStorage.getItem("rebel_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -22,8 +23,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      localStorage.removeItem('rebel_token');
-      window.location.href = '/login';
+      localStorage.removeItem("rebel_token");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -39,7 +40,7 @@ export const authApi = {
   },
 
   verify: async (): Promise<{ user: AuthUser }> => {
-    const response = await api.get('/auth/verify');
+    const response = await api.get("/auth/verify");
     return response.data;
   },
 };
@@ -47,8 +48,8 @@ export const authApi = {
 export const searchApi = {
   search: async (query: string, type?: string): Promise<SearchResponse> => {
     const params = new URLSearchParams({ q: query });
-    if (type) params.append('type', type);
-    
+    if (type) params.append("type", type);
+
     const response = await api.get(`/search?${params}`);
     return response.data;
   },
