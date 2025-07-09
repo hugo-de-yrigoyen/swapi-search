@@ -1,4 +1,4 @@
-# 🛰️ Star Wars Rebels Alliance Search System
+# 🛰️ Star Wars - Système de recherche de l'Alliance Rebelle
 
 Bienvenue dans l'Alliance Rebelle ! Ce projet permet de rechercher dans la base de données impériale Star Wars via une interface moderne et immersive.
 
