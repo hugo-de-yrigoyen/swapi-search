@@ -3,6 +3,7 @@ import Boom from "@hapi/boom";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
 import type { ServerRoute } from "@hapi/hapi";
+import "dotenv/config";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
@@ -12,7 +13,7 @@ const init = async () => {
     host: "0.0.0.0",
     routes: {
       cors: {
-        origin: ["https://swapi-search-hdy.netlify.app"],
+        origin: [process.env.ORIGIN_URL || "https://swapi-search-hdy.netlify.app"],
         credentials: true,
         additionalHeaders: ["cache-control", "x-requested-with"],
       },

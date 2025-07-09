@@ -20,6 +20,24 @@ npm start
 
 Le backend démarre sur `http://localhost:3001` (modifiable via la variable d'environnement `PORT`).
 
+#### Variables d'environnement (CORS, etc.)
+
+Le backend utilise [dotenv](https://www.npmjs.com/package/dotenv) pour charger les variables d'environnement depuis un fichier `.env` à la racine du dossier `backend`.
+
+Exemple de fichier `backend/.env` pour le développement local :
+
+```
+ORIGIN_URL=http://localhost:5173
+```
+
+En production (ex : Render), ne pas oublier de définir la variable d'environnement `ORIGIN_URL` dans le dashboard Render pour autoriser le frontend déployé (ex : `https://swapi-search-hdy.netlify.app`).
+
+Dans la configuration CORS du backend, la valeur utilisée est :
+
+```js
+origin: [process.env.ORIGIN_URL || "https://swapi-search-hdy.netlify.app"];
+```
+
 ### Frontend
 
 ```bash
@@ -44,6 +62,7 @@ Le frontend démarre sur `http://localhost:5173`.
 - **JWT** : Authentification sécurisée
 - **Axios** : Requêtes HTTP vers SWAPI
 - **Architecture modulaire** : Séparation claire (routes, contrôleurs, services)
+- **dotenv** : Gestion des variables d'environnement
 - **Déploiement** : Compatible Render, Railway, Heroku
 
 ### Frontend
