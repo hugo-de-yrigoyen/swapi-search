@@ -1,6 +1,16 @@
 import React, { useEffect } from "react";
 
 export const Starfield: React.FC = () => {
+  // Mobile viewport height fix
+  useEffect(() => {
+    const setVh = () => {
+      document.documentElement.style.setProperty("--vh", `${window.innerHeight * 0.01}px`);
+    };
+    setVh();
+    window.addEventListener("resize", setVh);
+    return () => window.removeEventListener("resize", setVh);
+  }, []);
+
   useEffect(() => {
     function createStars(containerId: string, numStars: number, sizeRange: { min: number; max: number }) {
       const container = document.getElementById(containerId);

@@ -84,7 +84,7 @@ frontend/
 ## 🎯 Choix Techniques
 
 ### Backend
-- **Express.js** : Framework web rapide et minimaliste
+- **Hapi.js** : Framework web rapide et minimaliste
 - **TypeScript** : Typage statique pour une meilleure maintenabilité
 - **JWT** : Authentification stateless et sécurisée
 - **Axios** : Client HTTP pour les appels SWAPI
