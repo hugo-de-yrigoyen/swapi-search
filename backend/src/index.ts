@@ -11,7 +11,11 @@ const init = async () => {
     port: PORT,
     host: "0.0.0.0",
     routes: {
-      cors: true, // Enable CORS for all routes
+      cors: {
+        origin: ["https://swapi-search-hdy.netlify.app"],
+        credentials: true,
+        additionalHeaders: ["cache-control", "x-requested-with"],
+      },
     },
   });
 
