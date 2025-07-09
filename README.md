@@ -1,185 +1,128 @@
 # 🛰️ Star Wars Rebels Alliance Search System
 
-Bienvenue dans l'Alliance Rebelle, jeune Padawan ! Ce système permet de rechercher dans la base de données impériale pour contrecarrer les plans de l'Empire.
+Bienvenue dans l'Alliance Rebelle ! Ce projet permet de rechercher dans la base de données impériale Star Wars via une interface moderne et immersive.
 
-## 🚀 Fonctionnalités
-
-### Backend
-- **API REST** avec Node.js + TypeScript
-- **Authentification** avec JWT (Luke/DadSucks)
-- **Recherche unifiée** dans toutes les catégories SWAPI
-- **Architecture modulaire** avec services, routes et contrôleurs
-- **Gestion d'erreurs** robuste avec codes HTTP appropriés
-
-### Frontend
-- **Interface React** avec TypeScript
-- **React Query** pour la gestion des données
-- **Authentification** intégrée avec redirection
-- **Recherche en temps réel** avec debounce
-- **Filtres par type** de données
-- **Fiches détaillées** pour chaque élément
-- **Design responsive** et thématique Star Wars
-
-## 🛠️ Installation
+## 🚀 Installation & Lancement
 
 ### Prérequis
-- Node.js (version 18 ou supérieure)
-- npm ou yarn
 
-### Installation Backend
+- Node.js (v18+ recommandé)
+- npm
+
+### Backend
+
 ```bash
 cd backend
 npm install
-npm run dev
+npm run build
+npm start
 ```
 
-Le backend démarre sur `http://localhost:3001`
+Le backend démarre sur `http://localhost:3001` (modifiable via la variable d'environnement `PORT`).
 
-### Installation Frontend
+### Frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Le frontend démarre sur `http://localhost:5173`
+Le frontend démarre sur `http://localhost:5173`.
 
-## 🔐 Authentification
+> **Identifiants de connexion démo :**
+>
+> - **Username :** Luke
+> - **Password :** DadSucks
 
-Utilisez les identifiants suivants pour accéder au système :
-- **Username:** Luke
-- **Password:** DadSucks
-
-## 🏗️ Architecture
+## ⚙️ Choix Techniques Principaux
 
 ### Backend
+
+- **Hapi.js** : Framework Node.js rapide et sécurisé
+- **TypeScript** : Typage statique pour robustesse
+- **JWT** : Authentification sécurisée
+- **Axios** : Requêtes HTTP vers SWAPI
+- **Architecture modulaire** : Séparation claire (routes, contrôleurs, services)
+- **Déploiement** : Compatible Render, Railway, Heroku
+
+### Frontend
+
+- **React + TypeScript** : UI moderne et typée
+- **Vite** : Build ultra-rapide
+- **React Query** : Gestion efficace des requêtes et du cache
+- **React Router** : Navigation SPA
+- **Tailwind CSS** : Design responsive et thématique Star Wars
+- **React Hook Form** : Gestion des formulaires
+- **Déploiement** : Netlify, Vercel
+
+## ✨ Fonctionnalités Clés
+
+- Authentification JWT (login obligatoire)
+- Recherche unifiée sur toutes les catégories SWAPI
+- Filtres par type (personnages, vaisseaux, etc.)
+- Résultats détaillés avec liens internes
+- Design immersif Star Wars (fond animé, polices, effets)
+- Responsive mobile (fixe les problèmes de viewport)
+- Gestion des erreurs et des états de chargement
+- Tests unitaires (Jest) pour backend et frontend
+
+## 🛠️ Lancer les tests
+
+```bash
+# Backend
+cd backend
+npm test
+
+# Frontend
+cd frontend
+npm test
+```
+
+## 🧑‍💻 Améliorations Possibles
+
+- Pagination des résultats
+- Favoris utilisateur
+- Mode sombre/clair
+- Recherche avancée (facettes, suggestions)
+- Notifications push
+- Passage à GraphQL
+- Monitoring et analytics
+- Internationalisation (i18n)
+
+## 📂 Structure du projet
+
 ```
 backend/
-├── src/
-│   ├── controllers/     # Contrôleurs des routes
-│   ├── middleware/      # Middleware d'authentification
-│   ├── routes/          # Définition des routes
-│   ├── services/        # Services métier
-│   ├── types/           # Types TypeScript
-│   └── index.ts         # Point d'entrée
-├── package.json
-└── tsconfig.json
-```
-
-### Frontend
-```
+  src/
+    controllers/
+    middleware/
+    routes/
+    services/
+    types/
+    index.ts
 frontend/
-├── src/
-│   ├── components/      # Composants réutilisables
-│   ├── contexts/        # Contextes React
-│   ├── hooks/           # Hooks personnalisés
-│   ├── lib/             # Utilitaires et API
-│   ├── pages/           # Pages de l'application
-│   ├── types/           # Types TypeScript
-│   └── App.tsx          # Composant principal
-├── package.json
-└── tailwind.config.js
+  src/
+    components/
+    contexts/
+    hooks/
+    lib/
+    pages/
+    types/
+    App.tsx
 ```
 
-## 🎯 Choix Techniques
+## 📝 Contribution
 
-### Backend
-- **Hapi.js** : Framework web rapide et minimaliste
-- **TypeScript** : Typage statique pour une meilleure maintenabilité
-- **JWT** : Authentification stateless et sécurisée
-- **Axios** : Client HTTP pour les appels SWAPI
-- **Architecture modulaire** : Séparation claire des responsabilités
-
-### Frontend
-- **React** : Bibliothèque UI avec écosystème riche
-- **TypeScript** : Typage statique côté client
-- **React Query** : Gestion optimisée des données distantes
-- **React Router** : Navigation côté client
-- **Tailwind CSS** : Framework CSS utilitaire
-- **React Hook Form** : Gestion optimisée des formulaires
-
-## 🔍 Fonctionnalités Avancées
-
-### Recherche Intelligente
-- **Debounce** pour limiter les appels API
-- **Recherche unifiée** dans toutes les catégories
-- **Filtres par type** pour affiner les résultats
-- **Gestion des états** (loading, erreur, vide)
-
-### Expérience Utilisateur
-- **Design responsive** adapté à tous les écrans
-- **Thème Star Wars** immersif
-- **Animations fluides** et micro-interactions
-- **Navigation intuitive** avec historique
-
-### Sécurité
-- **Authentification JWT** avec middleware
-- **Protection des routes** côté backend
-- **Gestion des erreurs** avec codes HTTP appropriés
-- **Validation des données** d'entrée
-
-## 🚀 Améliorations Possibles
-
-### Court terme
-- [ ] Tests unitaires avec Jest
-- [ ] Pagination des résultats
-- [ ] Cache local avec localStorage
-- [ ] Mode sombre/clair
-
-### Moyen terme
-- [ ] Base de données pour le cache
-- [ ] Recherche par facettes avancée
-- [ ] Favoris utilisateur
-- [ ] Notifications push
-
-### Long terme
-- [ ] Microservices architecture
-- [ ] GraphQL API
-- [ ] Progressive Web App
-- [ ] Monitoring et analytics
-
-## 📦 Déploiement
-
-### Backend
-Déployable sur :
-- Railway
-- Render
-- Heroku
-- AWS Lambda
-
-### Frontend
-Déployable sur :
-- Vercel
-- Netlify
-- Firebase Hosting
-- GitHub Pages
-
-## 🧪 Tests
-
-```bash
-# Backend tests
-cd backend
-npm test
-
-# Frontend tests
-cd frontend
-npm test
-```
-
-## 🤝 Contribution
-
-1. Fork le projet
-2. Créer une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
-3. Commit les changements (`git commit -m 'Ajouter nouvelle fonctionnalité'`)
-4. Push sur la branche (`git push origin feature/nouvelle-fonctionnalite`)
-5. Ouvrir une Pull Request
+1. Fork du repo
+2. Crée une branche (`feature/ma-fonctionnalite`)
+3. Commit & push
+4. Ouvre une Pull Request
 
 ## 📜 Licence
 
-Ce projet est sous licence MIT.
+MIT
 
-## 🖖 Remerciements
+---
 
 Que la Force soit avec vous !
-
-*"Help us, Obi-Wan Kenobi. You're our only hope."*
