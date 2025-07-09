@@ -30,14 +30,14 @@ export const SearchPage: React.FC = () => {
       <Starfield />
       <div className="w-full max-w-2xl mx-auto p-6 z-10">
         {/* Header */}
-        <header className="flex items-center justify-between mb-8 bg-black/30 backdrop-blur-sm border-b border-gray-700 rounded-lg p-4">
+        <header className="mb-8 bg-black/30 backdrop-blur-sm border-b border-gray-700 rounded-lg p-4 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="star-wars-font text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 glow">
+            <h1 className="star-wars-font text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 glow px-2">
               IMPERIAL DATABASE
             </h1>
             <p className="star-wars-font text-xs text-blue-200 tracking-wider">Imperial Intelligence System</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
             <span className="text-white star-wars-font">
               Welcome, <strong>{user?.username}</strong>
             </span>
