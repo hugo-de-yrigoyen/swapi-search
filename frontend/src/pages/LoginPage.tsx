@@ -37,7 +37,7 @@ export const LoginPage: React.FC = () => {
       <Starfield />
       <div className="w-full max-w-md mx-auto p-6 z-10">
         {/* Logo/Title */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-4">
           <h1 className="star-wars-font text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 mb-4 glow">
             IMPERIAL DATABASE
           </h1>
@@ -106,9 +106,21 @@ export const LoginPage: React.FC = () => {
           </form>
         </div>
 
-        {/* Ambiance message */}
-        <div className="text-center mt-8">
-          <p className="star-wars-font text-sm text-gray-400 italic tracking-wide">"May the Force be with you"</p>
+        {/* Credentials Block */}
+        <div className="mt-6 bg-gray-900 bg-opacity-70 rounded-lg p-4 border border-blue-700 text-center text-blue-200 star-wars-font text-sm shadow-lg">
+          <div className="mb-1 font-bold tracking-wider">
+            Rebel spy : <span className="italic text-blue-300">Pssst ! Over here !</span>
+          </div>
+          <div className="mb-2">He hands you over a paper :</div>
+          <div>
+            <span className="font-semibold italic">Username:</span> <span className="select-all italic">Luke</span>
+          </div>
+          <div>
+            <span className="font-semibold italic">Password:</span> <span className="select-all italic">DadSucks</span>
+          </div>
+          <div className="mt-2 font-bold tracking-wider">
+            Rebel spy : <span className="italic text-blue-300">May the Force be with you</span>
+          </div>
         </div>
       </div>
     </div>
