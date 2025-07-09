@@ -2,20 +2,21 @@ import Hapi from "@hapi/hapi";
 import Boom from "@hapi/boom";
 import authRoutes from "./routes/auth";
 import searchRoutes from "./routes/search";
+import type { ServerRoute } from "@hapi/hapi";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3001;
 
 const init = async () => {
   const server = Hapi.server({
     port: PORT,
-    host: "localhost",
+    host: "0.0.0.0",
     routes: {
       cors: true, // Enable CORS for all routes
     },
   });
 
   // Export server for testing
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === "test") {
     (global as any).__TEST_SERVER__ = server;
   }
 
@@ -29,14 +30,13 @@ const init = async () => {
   });
 
   // Auth routes (prefix: /api/auth)
-  // You will need to refactor your authRoutes to export Hapi-compatible route configs
   if (Array.isArray(authRoutes)) {
-    server.route(authRoutes.map((route) => ({ ...route, path: `/api/auth${route.path}` })));
+    server.route(authRoutes.map((route) => ({ ...route, path: `/api/auth${route.path}` })) as ServerRoute[]);
   }
 
   // Search routes (prefix: /api)
   if (Array.isArray(searchRoutes)) {
-    server.route(searchRoutes.map((route) => ({ ...route, path: `/api${route.path}` })));
+    server.route(searchRoutes.map((route) => ({ ...route, path: `/api${route.path}` })) as ServerRoute[]);
   }
 
   // 404 handler
